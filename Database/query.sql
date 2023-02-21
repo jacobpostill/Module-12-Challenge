@@ -12,3 +12,4 @@ LEFT JOIN   employees m on e.manager_id = m.employees_id
 JOIN roles ON e.role_id = roles.role_id
 JOIN department ON roles.department_id = department.department_id
 ORDER BY roles.title;
+

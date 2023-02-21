@@ -30,7 +30,7 @@ const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: '2003Huskie!',
         database: 'employee_db'
     },
     console.log('Connected to the Employee Database')
@@ -75,39 +75,43 @@ function info() {
                         info();
                     })
                 } else if (answer == 'Add a Department') {
-                    inquirer
+                    return inquirer
                         .prompt(departmentQ)
-                        .then(db.query(departmentAdd, function (err, result) {
-                            console.log('');
-                            console.log(result);
-                        }))
-                    info();
-                } else if (answer == 'Add Role') {
-                    inquirer
+                        .then((response) => {
+                            db.query(departmentAdd, function (err, result) {
+                                console.log(response, "response -department added")
+                                console.log(result);})
+                        })
+                    .then(() => {info()});
+                } else if (answer == 'Add a Role') {
+                    return inquirer
                         .prompt(roleQ)
-                        .then(db.query(roleAdd, function (err, result) {
-                            console.log('');
-                            console.log(result);
-                        }))
-                    info();
-                }
-                else if (answer == 'Add an Employee') {
-                    inquirer
-                        .prompt(updateEmployQ)
-                        .then(db.query(employeeAdd, function (err, result) {
-                            console.log('');
-                            console.log(result);
-                        }))
-                    info();
-                } else if (answer == 'Update an Employee Role') {
-                    inquirer
+                        .then((response) => {
+                            db.query(roleAdd, function (err, result) {
+                                console.log(response, "response -department added")
+                                console.log(result);})
+                        })
+                    .then(() => {info()});
+                } else if (answer == 'Add an Employee') {
+                    return inquirer
                         .prompt(employeesQ)
-                        .then(db.query(updateEmploy, function (err, result) {
-                            console.log('');
-                            console.log(result);
-                        }))
-                    info();
-                }
+                        .then((response) => {
+                            db.query(employeeAdd, function (err, result) {
+                                console.log(response, "response -department added")
+                                console.log(result);})
+                        })
+                    .then(() => {info()});
+                } else if (answer == 'Update an Employee Role') {
+                    return inquirer
+                        .prompt(updateEmployQ)
+                        .then((response) => {
+                            db.query(updateEmploy, function (err, result) {
+                                console.log(response, "response -department added")
+                                console.log(result);})
+                        })
+                    .then(() => {info()});
+                }else if (answer == 'Quite') {
+                    console.log('Thanks for using the employee manager!')
 
 
             });
