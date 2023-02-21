@@ -30,7 +30,7 @@ const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: '2003Huskie!',
         database: 'employee_db'
     },
     console.log('Connected to the Employee Database')
@@ -80,16 +80,16 @@ function info() {
                         .then(db.query(departmentAdd, function (err, result) {
                             console.log('');
                             console.log(result);
-                            info();
                         }))
+                    info();
                 } else if (answer == 'Add Role') {
                     inquirer
                         .prompt(roleQ)
                         .then(db.query(roleAdd, function (err, result) {
                             console.log('');
                             console.log(result);
-                            info();
                         }))
+                    info();
                 }
                 else if (answer == 'Add an Employee') {
                     inquirer
@@ -97,16 +97,16 @@ function info() {
                         .then(db.query(employeeAdd, function (err, result) {
                             console.log('');
                             console.log(result);
-                            info();
                         }))
+                    info();
                 } else if (answer == 'Update an Employee Role') {
                     inquirer
                         .prompt(employeesQ)
                         .then(db.query(updateEmploy, function (err, result) {
                             console.log('');
                             console.log(result);
-                            info();
                         }))
+                    info();
                 }
 
 
