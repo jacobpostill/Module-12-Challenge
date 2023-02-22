@@ -14,7 +14,7 @@ const db = mysql.createConnection(
 );
 
 function departmentAdd(){
-    inquirer.prompt([
+    return inquirer.prompt([
       {
         type: 'input',
         message: 'What is the name of the department?',
@@ -22,17 +22,14 @@ function departmentAdd(){
       },
     ]).then(function(answers){
       console.log(answers);
-      db.query("INSERT INTO department SET ?",{
+      return db.promise().query("INSERT INTO department SET ?",{
         name:answers.department_name,
-      }, function(error){
-        if (error) throw error;
-        console.log("added department");
+       }).then( ()=>{return console.log("added department")})
       })
-    })
-  }
+    }
 
 function roleAdd(){
-    inquirer.prompt([
+    return inquirer.prompt([
         {
             type: 'input',
             message: 'What is the title of this role?',
@@ -50,19 +47,16 @@ function roleAdd(){
         }
     ]).then(function(answers){
       console.log(answers);
-      db.query("INSERT INTO roles SET ?",{
+      return db.promise().query("INSERT INTO roles SET ?",{
         title:answers.title,
         salary:answers.salary,
         department_id:answers.department_name,
-      }, function(error){
-        if (error) throw error;
-        console.log("added role");
-      })
+      }).then( ()=>{return console.log("added role")})
     })
   }
 
 function employeeAdd(){
-    inquirer.prompt([
+    return inquirer.prompt([
         {
             type: 'input',
             message: 'What is the first name of the employee?',
@@ -85,20 +79,17 @@ function employeeAdd(){
         },
     ]).then(function(answers){
       console.log(answers);
-      db.query("INSERT INTO employees SET ?",{
+      return db.promise().query("INSERT INTO employees SET ?",{
         first_name:answers.first_name,
         last_name:answers.last_name,
         role_id:answers.role_id,
         manager_id:answers.manager,
-      }, function(error){
-        if (error) throw error;
-        console.log("added employee");
-      })
+      }).then( ()=>{return console.log("added employee")})
     })
   }
 
 function employeeUpdate(){
-    inquirer.prompt([
+    return inquirer.prompt([
         {
             type: 'input',
             message: 'What is the id of the Employee you are updating?',
@@ -110,17 +101,23 @@ function employeeUpdate(){
             name: 'choice',
             choices: [
                 {
-                    name: 'First Name'
+                    name: 'First Name',
+                    value: 'first_name'
                 },{
-                    name: 'Last Name'
+                    name: 'Last Name',
+                    value: 'last_name'
                 },{
-                    name: 'Job Title'
+                    name: 'Job Title',
+                    value: 'roles.title'
                 },{
-                    name: 'Department'
+                    name: 'Department',
+                    value: 'department.name'
                 },{
-                    name: 'Salary'
+                    name: 'Salary',
+                    value: 'roles.salary'
                 },{
-                    name: 'manager'
+                    name: 'manager',
+                    value: 'manager_id'
                 },
             ]
         },
@@ -131,14 +128,25 @@ function employeeUpdate(){
         },
     ]).then(function(answers){
       console.log(answers);
-      let choice = answers.choice
-      db.query("UPDATE employees SET",{
-        choice:answers.name,
-      }, function(error){
-        if (error) throw error;
-        console.log("Updated employee");
-      })
+      return db.promise().query("UPDATE employees SET",{
+        choice:answers.change,
+     }).then( ()=>{return console.log("Employee changed")})
     })
   }
 
-module.exports = { employeeUpdate, employeeAdd, roleAdd, departmentAdd }
+function deleteEmployee() {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the ID of the employee you would like to remove',
+            name: 'iD',
+        },
+    ]).then(function(answers){
+      console.log(answers);
+      return db.promise().query("Delete employees WHERE",{
+        employees_id:answers.iD,
+     }).then( ()=>{return console.log("Employee remove")})
+    })
+  }
+
+module.exports = { employeeUpdate, employeeAdd, roleAdd, departmentAdd, deleteEmployee }

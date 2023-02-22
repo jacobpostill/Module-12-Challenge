@@ -12,4 +12,9 @@ JOIN roles ON e.role_id = roles.role_id
 JOIN department ON roles.department_id = department.department_id
 ORDER BY roles.title;`
 
-module.exports = { department, roles, employees }
+const manager = `SELECT CONCAT(employees.first_name, ' ', employees.last_name) AS 'Manager Name', employees.employees_id as "ID", roles.title as "Title"
+FROM roles
+INNER JOIN employees ON employees.role_id = roles.role_id
+WHERE management = 1;`
+
+module.exports = { department, roles, employees, manager }

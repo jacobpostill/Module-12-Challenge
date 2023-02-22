@@ -18,8 +18,8 @@ console.log(`+----------------------------------------------------------+`);
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const { employeeUpdate, employeeAdd, roleAdd, departmentAdd } = require('./helper/prompts');
-const { department, roles, employees } = require('./helper/sql');
+const { employeeUpdate, employeeAdd, roleAdd, departmentAdd, deleteEmployee } = require('./helper/prompts');
+const { department, roles, employees, manager } = require('./helper/sql');
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -47,10 +47,12 @@ function info() {
                         choices: ['View All Departments',
                             'View All Roles',
                             'View All Employees',
+                            'View All Managers',
                             'Add a Department',
                             'Add a Role',
                             'Add an Employee',
                             'Update an Employee Role',
+                            'Remove Employee',
                             'Quit']
                     }]
             )
@@ -74,25 +76,25 @@ function info() {
                         console.log('');
                         console.table(result);
                         info()
-
+                    })
+                } else if (answer == 'View All Managers') {
+                    db.query(manager, function (err, result) {
+                        console.log('');
+                        console.table(result);
+                        info()
                     })
                 } else if (answer == 'Add a Department') {
-                    departmentAdd()
+                    departmentAdd().then(()=>{info()})
                 } else if (answer == 'Add a Role') {
-                    roleAdd()
+                    roleAdd().then(()=>{info()})
                 } else if (answer == 'Add an Employee') {
-                    employeeAdd()
-                    .then(() => { info() })
+                    employeeAdd().then(()=>{info()})
                 } else if (answer == 'Update an Employee Role') {
-                    employeeUpdate()
+                    employeeUpdate().then(()=>{info()})
                 }else if (answer == 'Quite') {
                     console.log('Thanks for using the employee manager!')
-
-                }})
-            .then((response) => {
-                const answer = response.answer
-                if (answer != 'Quite') {
-                    info()
+                }else if (answer == 'Remove Employee') {
+                    deleteEmployee().then(()=>{info()})
                 }})
     }
 
