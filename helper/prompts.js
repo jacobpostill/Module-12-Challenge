@@ -141,10 +141,8 @@ function deleteEmployee() {
         },
     ]).then(function(answers){
       console.log(answers);
-      return db.promise().query("Delete employees WHERE",{
-        employees_id:answers.iD,
-     }).then( ()=>{return console.log("Employee remove")})
-    })
+      return db.promise().query(`DELETE FROM employees WHERE employees_id = ?`,[answers.iD])
+     }).then( ()=>{return console.log("Employee changed")})
   }
 
 module.exports = { employeeUpdate, employeeAdd, roleAdd, departmentAdd, deleteEmployee }

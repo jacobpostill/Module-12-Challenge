@@ -6,9 +6,7 @@
 
 In this project you will be able to find a employee database. This will allow you to manage and keep track of different employees, roles, and departments in your company. It will alsos provide important information for these different topics. 
 
-[Walkthrough Video](https://drive.google.com/file/d/1hBM_wOOa4TwZ6mzizv2AVNeOoUvXE8JF/view)
-
-<img src="./Example.svg">
+[Walkthrough Video](https://drive.google.com/file/d/17_2sAfY-p27ddxBgFqOBGjw6cDomOLez/view)
 
 
 ## Table of Contents
