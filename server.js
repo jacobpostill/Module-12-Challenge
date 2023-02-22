@@ -18,7 +18,7 @@ console.log(`+----------------------------------------------------------+`);
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const { updateEmploy, updateEmployQ, employeeAdd, employeesQ, roleAdd, roleQ, departmentAdd, departmentQ } = require('./helper/prompts');
+const { employeeUpdate, employeeAdd, roleAdd, departmentAdd } = require('./helper/prompts');
 const { department, roles, employees } = require('./helper/sql');
 const app = express();
 
@@ -30,11 +30,12 @@ const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
-        password: '2003Huskie!',
+        password: '',
         database: 'employee_db'
     },
     console.log('Connected to the Employee Database')
 );
+departmentAdd()
 
 function info() {
         inquirer
@@ -75,46 +76,22 @@ function info() {
                         info();
                     })
                 } else if (answer == 'Add a Department') {
-                    return inquirer
-                        .prompt(departmentQ)
-                        .then((response) => {
-                            db.query(departmentAdd, function (err, result) {
-                                console.log(response, "response -department added")
-                                console.log(result);})
-                        })
-                    .then(() => {info()});
+                    departmentAdd()
+                    info()
                 } else if (answer == 'Add a Role') {
-                    return inquirer
-                        .prompt(roleQ)
-                        .then((response) => {
-                            db.query(roleAdd, function (err, result) {
-                                console.log(response, "response -department added")
-                                console.log(result);})
-                        })
-                    .then(() => {info()});
+                    roleAdd()
+                    info()
                 } else if (answer == 'Add an Employee') {
-                    return inquirer
-                        .prompt(employeesQ)
-                        .then((response) => {
-                            db.query(employeeAdd, function (err, result) {
-                                console.log(response, "response -department added")
-                                console.log(result);})
-                        })
-                    .then(() => {info()});
+                    employeeAdd()
+                    info()
                 } else if (answer == 'Update an Employee Role') {
-                    return inquirer
-                        .prompt(updateEmployQ)
-                        .then((response) => {
-                            db.query(updateEmploy, function (err, result) {
-                                console.log(response, "response -department added")
-                                console.log(result);})
-                        })
-                    .then(() => {info()});
+                    employeeUpdate()
+                    info()
                 }else if (answer == 'Quite') {
                     console.log('Thanks for using the employee manager!')
 
 
-            });
+            }});
     }
 
 
