@@ -1,12 +1,13 @@
 const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const { info } = require('../server');
 
 const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: '2003Huskie!',
         database: 'employee_db'
     },
     console.log('Connected to the Employee adder')
