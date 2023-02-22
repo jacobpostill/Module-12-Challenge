@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
-const connection = mysql.createConnection(
+const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
@@ -21,7 +21,7 @@ function departmentAdd(){
       },
     ]).then(function(answers){
       console.log(answers);
-      connection.query("INSERT INTO department SET ?",{
+      db.query("INSERT INTO department SET ?",{
         name:answers.department_name,
       }, function(error){
         if (error) throw error;
@@ -49,7 +49,7 @@ function roleAdd(){
         }
     ]).then(function(answers){
       console.log(answers);
-      connection.query("INSERT INTO roles SET ?",{
+      db.query("INSERT INTO roles SET ?",{
         title:answers.title,
         salary:answers.salary,
         department_id:answers.department_name,
@@ -84,7 +84,7 @@ function employeeAdd(){
         },
     ]).then(function(answers){
       console.log(answers);
-      connection.query("INSERT INTO employees SET ?",{
+      db.query("INSERT INTO employees SET ?",{
         first_name:answers.first_name,
         last_name:answers.last_name,
         role_id:answers.role_id,
@@ -131,7 +131,7 @@ function employeeUpdate(){
     ]).then(function(answers){
       console.log(answers);
       let choice = answers.choice
-      connection.query("UPDATE employees SET",{
+      db.query("UPDATE employees SET",{
         choice:answers.name,
       }, function(error){
         if (error) throw error;
