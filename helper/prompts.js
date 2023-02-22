@@ -128,11 +128,9 @@ function employeeUpdate(){
         },
     ]).then(function(answers){
       console.log(answers);
-      return db.promise().query("UPDATE employees SET",{
-        choice:answers.change,
+      db.promise().query(`UPDATE employees SET ${answers.choice} = ? WHERE employees_id = ?`,[answers.change, answers.iD])
      }).then( ()=>{return console.log("Employee changed")})
-    })
-  }
+    }
 
 function deleteEmployee() {
     return inquirer.prompt([
